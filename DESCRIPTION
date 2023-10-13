@@ -1,11 +1,12 @@
 Package: MSGene
 Type: Package
-Title: What the Package Does (Title Case)
+Title: MSGene: Efficent Multistate Model for estimating the lifetime probability of coronary artery disease
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Sarah Urbut
+Maintainer: Sarah Urbut (surbut@mgh.harvard.edu)
+Description: 
+    Estimates the Lifetime Probability of CAD over a multistate model, according to the model in Urbut et al.
+    In this implementation we use extensive longitudinal data from the UKB EHR.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
