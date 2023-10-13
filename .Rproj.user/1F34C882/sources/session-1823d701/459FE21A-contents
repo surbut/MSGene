@@ -1,0 +1,53 @@
+library(MSGene)
+#library(reshape2)
+#library(tidyverse)
+load("~/Library/CloudStorage/Dropbox-Personal///pheno_dir/output/merged_pheno_censor_final_withdrugs_smoke.rds")
+train=dfh[1:(nrow(dfh)*0.80),]
+ages=c(40:80)
+nstates=c("Health", "Ht","HyperLip","Dm","Cad","death","Ht&HyperLip","HyperLip&Dm","Ht&Dm","Ht&HyperLip&Dm")
+
+modelfit = fitfunc2(
+  df_frame=data.table(train),
+  ages = ages,
+  nstates = nstates,
+  mode = "binomial",
+  covariates = "cad.prs+f.31.0.0+smoke+antihtn_now+statin_now")
+
+a = coefplotsmooth2(
+    ages = ages,
+    start = nstates[1],
+    stop = "Cad",
+    modelfit = modelfit,
+    window_width = 20,
+    span = 0.75,
+    degree = 2
+  )
+healthy_coefs = a$custom_smooth
+
+## create sample matrix
+
+intercept=1
+cad.prs=c(-2,-1,0,1,2)
+sex=c(0,1)
+smoke=c(0,1)
+antihtn_now=c(0,1)
+statin_now=c(0,1)
+atrisk=expand.grid(intercept,cad.prs,sex,smoke,antihtn_now,statin_now)
+
+
+mso = compute_prediction_product_matrix(
+coefmat = healthy_coefs,
+atrisk = atrisk,
+agepredinterval = c(40:80)
+)
+
+# remaining lifetime risk matrix starting from each 40
+
+mso$PredictedIntervalrisk
+
+# remaining lifetime risk matrix under treatment starting from 40
+
+mso$Hazard_treated
+
+
+
