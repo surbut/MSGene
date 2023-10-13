@@ -5,8 +5,6 @@ Version: 0.1.0
 Author: Sarah Urbut
 Maintainer: Sarah Urbut (surbut@mgh.harvard.edu)
 Description: 
-    Estimates the Lifetime Probability of CAD over a multistate model, according to the model in Urbut et al.
-    In this implementation we use extensive longitudinal data from the UKB EHR.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
