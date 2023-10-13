@@ -5,12 +5,16 @@ date: "2023-09-16"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,warning = FALSE,message = FALSE)
+knitr::opts_chunk$set(echo = TRUE,warning = FALSE,message = FALSE,comment = FALSE,tidy = TRUE)
+```
+
+
+```{r,eval=F}
+devtools::install_github("surbut/MSGene")
 ```
 
 ```{r}
-devtools::install_github("surbut/MSGene")
-library(MSGene)
+require(MSGene)
 ```
 
 # load our data
