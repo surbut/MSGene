@@ -1,6 +1,12 @@
+---
+title: "Test Script"
+output: html_document
+date: "2023-09-16"
+---
 
-
-## Here we show a test vignette for trying out this package:
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,warning = FALSE,message = FALSE)
+```
 
 ```{r}
 devtools::install_github("surbut/MSGene")
@@ -8,20 +14,32 @@ library(MSGene)
 ```
 
 # load our data
+
+First, we load our sample data frame.
+
 ```{r}
 data("testdf")
 ```
+
 # set a training set
+
+Now, we select a portion of the data for training
 ```{r}
 train=df2[1:(nrow(df2)*0.80),]
 ```
-# specify ages and states
+
+# Parameter choice
+
+Here we choose the ages we will consider and the states we will move through.
+
 ```{r}
 ages=c(40:80)
 nstates=c("Health", "Ht","HyperLip","Dm","Cad","death","Ht&HyperLip","HyperLip&Dm","Ht&Dm","Ht&HyperLip&Dm")
 ```
 
 ## Fit our model
+
+Now we're ready to fit our model! Sit tight, this step takes between 60-90 seconds  ... but it's worht it.
 
 ```{r}
 
@@ -33,8 +51,22 @@ modelfit = fitfunc2(
   covariates = "cad.prs+f.31.0.0+smoke+antihtn_now+statin_now")
 ```
 
+Look at all that we've produced! 
+
+```{r}
+
+attributes(modelfit)
+
+```
+
+You can see in this array we have the number of events, `r dim(modelfit$events)`, the absolute rate per year per transition, the number at risk per year and per transition, and the list of models over years and states.
+
+
 
 ## Extract coefficients for health-->CAD transition
+
+To compute our risk calculations, we need to extract the unsmoothed coefficients, we will feed through a smoother, and then use these coefficients to compute our product.
+
 ```{r}
 a = coefplotsmooth2(
     ages = ages,
@@ -66,11 +98,17 @@ atrisk = atrisk,
 agepredinterval = c(40:80)
 )
 ```
+
 # remaining lifetime risk matrix starting from each 40 for all 80 individuals in the profile
+
+Now we compute the complement of the product of the annual surivivals.
+
 
 ```{r}
 mso$PredictedIntervalrisk
 ```
+
+Now we compute the complement of the product of the annual surivivals augmented by treatment.
 
 # remaining lifetime risk matrix under treatment starting from 40
 
