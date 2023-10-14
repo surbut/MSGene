@@ -357,39 +357,68 @@ display: none;
 
 <pre class="r"><code>devtools::install_github(&quot;surbut/MSGene&quot;)</code></pre>
 <pre class="r"><code>require(MSGene)</code></pre>
-<div id="load-our-data" class="section level1">
-<h1>load our data</h1>
-<p>First, we load our sample data frame.</p>
-<pre class="r"><code>data(&quot;testdf&quot;)</code></pre>
-</div>
-<div id="set-a-training-set" class="section level1">
-<h1>set a training set</h1>
-<p>Now, we select a portion of the data for training</p>
+<ul>
+<li>load our data</li>
+</ul>
+<p>First, we load our sample data frame. You will need to request a data
+frame with the following columns. We cannot share our UKB data but you
+can assembley your own variables using the <a href="https://github.com/niekverw/ukbpheno/blob/master/inst/extdata/definitions_cardiometabolic_traits.tsv">ukbpheno</a>
+packages</p>
+<blockquote>
+<p>“cad.prs” = cad polygenic risk score<br />
+“f.31.0.0” = sex (female = 0, male = 1)<br />
+“Cad_0_censor_age” = age of CAD, death or lost to followup<br />
+“Ht_0_censor_age” = age of CAD, death or lost to followup<br />
+“Dm_0_censor_age” = age of CAD, death or lost to followup<br />
+“HyperLip_0_censor_age” = age of CAD, death or lost to followup<br />
+“Death_Censor_Age”<br />
+</p>
+</blockquote>
+<blockquote>
+<p>“Cad_0_Any” = control = 1, case = 2<br />
+“Dm_0_Any” = control = 1, case = 2<br />
+“Ht_0_Any” = control = 1, case = 2<br />
+“HyperLip_0_Any” = control = 1, case = 2<br />
+“Death_censor_Any” = control = 1, case = 2</p>
+</blockquote>
+<blockquote>
+<p>“statin” = c(0, 1)<br />
+“antihtn” = c(0, 1)<br />
+“statin_age” = age of statin use (or NA)<br />
+“htn_age” = age of antihtn use (or NA)<br />
+“smoke” = c(0, 1)</p>
+</blockquote>
+<pre class="r"><code>df2 = ukbdata</code></pre>
+<ul>
+<li><p>Set a training set</p></li>
+<li><p>Now, we select a portion of the data for training</p></li>
+</ul>
 <pre class="r"><code>train = df2[1:(nrow(df2) * 0.8), ]</code></pre>
-</div>
-<div id="parameter-choice" class="section level1">
-<h1>Parameter choice</h1>
-<p>Here we choose the ages we will consider and the states we will move
-through.</p>
+<ul>
+<li><p>Parameter choice</p></li>
+<li><p>Here we choose the ages we will consider and the states we will
+move through.</p></li>
+</ul>
 <pre class="r"><code>ages = c(40:80)
 nstates = c(&quot;Health&quot;, &quot;Ht&quot;, &quot;HyperLip&quot;, &quot;Dm&quot;, &quot;Cad&quot;, &quot;death&quot;, &quot;Ht&amp;HyperLip&quot;, &quot;HyperLip&amp;Dm&quot;,
     &quot;Ht&amp;Dm&quot;, &quot;Ht&amp;HyperLip&amp;Dm&quot;)</code></pre>
-<div id="fit-our-model" class="section level2">
-<h2>Fit our model</h2>
+<ul>
+<li>Fit our model</li>
+</ul>
 <p>Now we’re ready to fit our model! Sit tight, this step takes between
 60-90 seconds … but it’s worht it.</p>
 <pre class="r"><code>modelfit = fitfunc2(df_frame = data.table::data.table(train), ages = ages, nstates = nstates,
     mode = &quot;binomial&quot;, covariates = &quot;cad.prs+f.31.0.0+smoke+antihtn_now+statin_now&quot;)</code></pre>
-<p>Look at all that we’ve produced!</p>
+<ul>
+<li>Look at all that we’ve produced!</li>
+</ul>
 <pre class="r"><code>attributes(modelfit)</code></pre>
-<pre><code>FALSE $names
-FALSE [1] &quot;events&quot;       &quot;rates&quot;        &quot;AR&quot;           &quot;model_list&quot;   &quot;yearsinstate&quot;</code></pre>
-<p>You can see in this array we have the number of events, 41, 10, 10,
-the absolute rate per year per transition, the number at risk per year
-and per transition, and the list of models over years and states.</p>
-</div>
-<div id="extract-coefficients-for-healthcad-transition" class="section level2">
-<h2>Extract coefficients for health–&gt;CAD transition</h2>
+<p>You can see in this array we have the number of events, the absolute
+rate per year per transition, the number at risk per year and per
+transition, and the list of models over years and states.</p>
+<ul>
+<li>Extract coefficients for health–&gt;CAD transition</li>
+</ul>
 <p>To compute our risk calculations, we need to extract the unsmoothed
 coefficients, we will feed through a smoother, and then use these
 coefficients to compute our product.</p>
@@ -409,49 +438,19 @@ atrisk = expand.grid(intercept, cad.prs, sex, smoke, antihtn_now, statin_now)
 
 mso = compute_prediction_product_matrix(coefmat = healthy_coefs, atrisk = atrisk,
     agepredinterval = c(40:80))</code></pre>
-</div>
-</div>
-<div id="remaining-lifetime-risk-matrix-starting-from-each-40-for-all-80-individuals-in-the-profile" class="section level1">
-<h1>remaining lifetime risk matrix starting from each 40 for all 80
-individuals in the profile</h1>
+<ul>
+<li>remaining lifetime risk matrix starting from each 40 for all 80
+individuals in the profile</li>
+</ul>
 <p>Now we compute the complement of the product of the annual
 surivivals.</p>
 <pre class="r"><code>mso$PredictedIntervalrisk</code></pre>
-<pre><code>FALSE  [1] 0.03192629 0.04465484 0.06269812 0.08832705 0.12471401 0.07040536
-FALSE  [7] 0.10017962 0.14279301 0.20327720 0.28753596 0.04446752 0.06189578
-FALSE [13] 0.08643123 0.12097875 0.16945368 0.09644349 0.13631588 0.19263559
-FALSE [19] 0.27100501 0.37682262 0.06618678 0.09468548 0.13575778 0.19451719
-FALSE [25] 0.27711680 0.15938245 0.22977648 0.32787571 0.45789158 0.61546142
-FALSE [31] 0.09052301 0.12876386 0.18324904 0.25981812 0.36436911 0.21360545
-FALSE [37] 0.30411651 0.42560725 0.57671278 0.74113358 0.10161686 0.15015554
-FALSE [43] 0.22095205 0.32122287 0.45565598 0.27222142 0.39267748 0.54653329
-FALSE [49] 0.71812356 0.87045410 0.13644882 0.20034569 0.29166523 0.41639477
-FALSE [55] 0.57326393 0.35525504 0.50014094 0.66970447 0.83250520 0.94503185
-FALSE [61] 0.26587867 0.38554755 0.53962731 0.71292784 0.86793832 0.64101762
-FALSE [67] 0.80953721 0.93268088 0.98761697 0.99916594 0.34828618 0.49328304
-FALSE [73] 0.66438317 0.82981564 0.94449248 0.76355011 0.90463696 0.97848904
-FALSE [79] 0.99804524 0.99995276</code></pre>
 <p>Now we compute the complement of the product of the annual surivivals
 augmented by treatment.</p>
-</div>
-<div id="remaining-lifetime-risk-matrix-under-treatment-starting-from-40" class="section level1">
-<h1>remaining lifetime risk matrix under treatment starting from 40</h1>
+<ul>
+<li>remaining lifetime risk matrix under treatment starting from 40</li>
+</ul>
 <pre class="r"><code>mso$Hazard_treated</code></pre>
-<pre><code>FALSE  [1] 0.02561954 0.03587885 0.05046749 0.07128383 0.10103578 0.05671728
-FALSE  [7] 0.08095206 0.11591263 0.16612774 0.23735575 0.03572664 0.04981581
-FALSE [13] 0.06973703 0.09796544 0.13794346 0.07789964 0.11057253 0.15723309
-FALSE [19] 0.22324652 0.31466396 0.05329668 0.07646974 0.11011995 0.15881342
-FALSE [25] 0.22846716 0.12962008 0.18837022 0.27204767 0.38680353 0.53360961
-FALSE [31] 0.07307436 0.10436502 0.14941842 0.21374955 0.30376729 0.17478153
-FALSE [37] 0.25157149 0.35784822 0.49656547 0.65956526 0.08213080 0.12199436
-FALSE [43] 0.18094985 0.26629447 0.38476426 0.22429360 0.32860836 0.46808276
-FALSE [49] 0.63555689 0.80313069 0.11069407 0.16368816 0.24090098 0.34963910
-FALSE [55] 0.49326840 0.29581212 0.42519003 0.58668547 0.75883471 0.89983703
-FALSE [61] 0.21890029 0.32232984 0.46164552 0.63023762 0.80011534 0.55829698
-FALSE [67] 0.73287215 0.88240895 0.96866027 0.99604238 0.28974489 0.41891468
-FALSE [73] 0.58139859 0.75576202 0.89903655 0.68298712 0.84537666 0.95187060
-FALSE [79] 0.99243242 0.99953557</code></pre>
-</div>
 
 
 
