@@ -1,15 +1,26 @@
 ---
-title: "Test Script"
-output: html_document
-date: "2023-09-16"
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MSGene}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(eval=F,echo = TRUE,warning = FALSE,message = FALSE,comment = FALSE,tidy = TRUE)
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
 ```
 
 
-```{r,eval=F}
+# Loading and installing MSGene
+
+* First load from Github
+```{r,eval=T}
 devtools::install_github("surbut/MSGene")
 ```
 
@@ -17,48 +28,23 @@ devtools::install_github("surbut/MSGene")
 require(MSGene)
 ```
 
-* load our data
+## Vignette Info
 
 First, we load our sample data frame. You will need to request a data frame with the following columns. We cannot share our UKB data but you can assembley your own variables using the [ukbpheno](https://github.com/niekverw/ukbpheno/blob/master/inst/extdata/definitions_cardiometabolic_traits.tsv) packages
 
 
-> 
-"cad.prs"  = cad polygenic risk score\
-"f.31.0.0" = sex (female = 0, male = 1)\
-"Cad_0_censor_age"  = age of CAD, death or lost to followup\
-"Ht_0_censor_age"  = age of CAD, death or lost to followup\
-"Dm_0_censor_age"    = age of CAD, death or lost to followup\
-"HyperLip_0_censor_age" = age of CAD, death or lost to followup\
-"Death_Censor_Age"\
-
-
-> 
-"Cad_0_Any"  = control = 1, case = 2\
-"Dm_0_Any"  = control = 1, case = 2\
-"Ht_0_Any"  = control = 1, case = 2\
-"HyperLip_0_Any"   = control = 1, case = 2\
-"Death_censor_Any"   = control = 1, case = 2
-
-
-> 
-"statin" = c(0, 1)\
-"antihtn"  = c(0, 1)\
-"statin_age"   = age of statin use (or NA)\
-"htn_age"  = age of antihtn use (or NA)\
-"smoke" =  c(0, 1)
-
-
-```{r}
-df2=ukbdata
+```{r eval=T,echo=FALSE}
+df2=readRDS("~/Library/CloudStorage/Dropbox-Personal/testdf.rds")
 ```
-* Set a training set
+
+## Set a training set
 
 * Now, we select a portion of the data for training
 ```{r}
 train=df2[1:(nrow(df2)*0.80),]
 ```
 
-* Parameter choice
+## Parameter choice
 
 * Here we choose the ages we will consider and the states we will move through.
 
@@ -67,7 +53,7 @@ ages=c(40:80)
 nstates=c("Health", "Ht","HyperLip","Dm","Cad","death","Ht&HyperLip","HyperLip&Dm","Ht&Dm","Ht&HyperLip&Dm")
 ```
 
-* Fit our model
+### Fit our model
 
 Now we're ready to fit our model! Sit tight, this step takes between 60-90 seconds  ... but it's worht it.
 
@@ -81,7 +67,7 @@ modelfit = fitfunc2(
   covariates = "cad.prs+f.31.0.0+smoke+antihtn_now+statin_now")
 ```
 
-* Look at all that we've produced! 
+### Look at all that we've produced! 
 
 ```{r}
 attributes(modelfit)
@@ -89,7 +75,7 @@ attributes(modelfit)
 
 You can see in this array we have the number of events, the absolute rate per year per transition, the number at risk per year and per transition, and the list of models over years and states.
 
-* Extract coefficients for health-->CAD transition
+### Extract coefficients for health-->CAD transition
 
 To compute our risk calculations, we need to extract the unsmoothed coefficients, we will feed through a smoother, and then use these coefficients to compute our product.
 
@@ -141,5 +127,4 @@ Now we compute the complement of the product of the annual surivivals augmented 
 ```{r}
 mso$Hazard_treated
 ```
-
 
