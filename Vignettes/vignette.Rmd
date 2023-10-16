@@ -3,10 +3,6 @@ title: "Vignette Title"
 author: "Vignette Author"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{MSGene}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
@@ -34,7 +30,8 @@ First, we load our sample data frame. You will need to request a data frame with
 
 
 ```{r eval=T,echo=FALSE}
-df2=readRDS("~/Library/CloudStorage/Dropbox-Personal/testdf.rds")
+df2=readRDS("~/Library/CloudStorage/Dropbox-Personal/dfmsgene.rds")
+head(df2)
 ```
 
 ## Set a training set
