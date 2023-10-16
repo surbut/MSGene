@@ -44,6 +44,6 @@ modelfit = fitfunc2(
   covariates = "cad.prs+f.31.0.0+smoke+antihtn_now+statin_now")
 ```
 
-For more details, including state to state coefficient extraction, lifetime probabilities of disease under treated and untreated strategy, please see our test vignette at https://surbut.github.io/MSGene/testscript.html
+For more details, including state to state coefficient extraction, lifetime probabilities of disease under treated and untreated strategy, please see our test vignette at https://surbut.github.io/MSGene/vignette.html
 
 
