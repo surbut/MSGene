@@ -125,3 +125,9 @@ Now we compute the complement of the product of the annual surivivals augmented 
 mso$Hazard_treated
 ```
 
+You can also make cool plots examining the proportional occupancy of each state:
+
+```{r, echo=F,eval=T}
+readRDS("~/multistate2/output/proportionaloccupancy.rds")
+```
+
