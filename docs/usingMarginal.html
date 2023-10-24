@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Vignette Author" />
+
+<meta name="date" content="2023-10-24" />
+
+<title>Vignette Title</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Vignette Title</h1>
+<h4 class="author">Vignette Author</h4>
+<h4 class="date">2023-10-24</h4>
+
+
+
+<div id="model-fitting" class="section level1">
+<h1>Model fitting</h1>
+<ul>
+<li>load data</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>data_dir<span class="ot">=</span><span class="st">&quot;/Users/sarahurbut/Library/CloudStorage/Dropbox-Personal&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">paste0</span>(data_dir,<span class="st">&#39;/pheno_dir/output/merged_pheno_censor_final_withdrugs_smoke.rds&#39;</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(MSGene)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(data.table)</span></code></pre></div>
+</div>
+<div id="set-transition-matrix" class="section level1">
+<h1>set transition matrix</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>nstates<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Health&quot;</span>,<span class="st">&quot;Ht&quot;</span>,<span class="st">&quot;HyperLip&quot;</span>,<span class="st">&quot;Dm&quot;</span>,<span class="st">&quot;Cad&quot;</span>,<span class="st">&quot;death&quot;</span>,<span class="st">&quot;Ht&amp;HyperLip&quot;</span>,<span class="st">&quot;HyperLip&amp;Dm&quot;</span>,<span class="st">&quot;Ht&amp;Dm&quot;</span>,<span class="st">&quot;Ht&amp;HyperLip&amp;Dm&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>transitions<span class="ot">=</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow =</span> <span class="dv">10</span>,<span class="at">ncol=</span><span class="dv">10</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">rownames</span>(transitions)<span class="ot">=</span>nstates</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">colnames</span>(transitions)<span class="ot">=</span>nstates</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>transitions[<span class="st">&quot;Health&quot;</span>,<span class="st">&quot;Health&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>transitions[<span class="st">&quot;Health&quot;</span>,<span class="st">&quot;Ht&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>transitions[<span class="st">&quot;Health&quot;</span>,<span class="st">&quot;HyperLip&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>transitions[<span class="st">&quot;Health&quot;</span>,<span class="st">&quot;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>transitions[<span class="st">&quot;Health&quot;</span>,<span class="st">&quot;Cad&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>transitions[<span class="st">&quot;Health&quot;</span>,<span class="st">&quot;death&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&quot;</span>,<span class="st">&quot;Ht&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&quot;</span>,<span class="st">&quot;Ht&amp;HyperLip&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&quot;</span>,<span class="st">&quot;Ht&amp;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&quot;</span>,<span class="st">&quot;Cad&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&quot;</span>,<span class="st">&quot;death&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>transitions[<span class="st">&quot;HyperLip&quot;</span>,<span class="st">&quot;HyperLip&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>transitions[<span class="st">&quot;HyperLip&quot;</span>,<span class="st">&quot;Ht&amp;HyperLip&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>transitions[<span class="st">&quot;HyperLip&quot;</span>,<span class="st">&quot;HyperLip&amp;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>transitions[<span class="st">&quot;HyperLip&quot;</span>,<span class="st">&quot;Cad&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>transitions[<span class="st">&quot;HyperLip&quot;</span>,<span class="st">&quot;death&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>transitions[<span class="st">&quot;Dm&quot;</span>,<span class="st">&quot;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a>transitions[<span class="st">&quot;Dm&quot;</span>,<span class="st">&quot;Ht&amp;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>transitions[<span class="st">&quot;Dm&quot;</span>,<span class="st">&quot;HyperLip&amp;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>transitions[<span class="st">&quot;Dm&quot;</span>,<span class="st">&quot;Cad&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>transitions[<span class="st">&quot;Dm&quot;</span>,<span class="st">&quot;death&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&amp;HyperLip&quot;</span>,<span class="st">&quot;Ht&amp;HyperLip&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&amp;HyperLip&quot;</span>,<span class="st">&quot;Ht&amp;HyperLip&amp;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&amp;HyperLip&quot;</span>,<span class="st">&quot;Cad&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&amp;HyperLip&quot;</span>,<span class="st">&quot;death&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&amp;Dm&quot;</span>,<span class="st">&quot;Ht&amp;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&amp;Dm&quot;</span>,<span class="st">&quot;Ht&amp;HyperLip&amp;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&amp;Dm&quot;</span>,<span class="st">&quot;Cad&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&amp;Dm&quot;</span>,<span class="st">&quot;death&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a>transitions[<span class="st">&quot;HyperLip&amp;Dm&quot;</span>,<span class="st">&quot;HyperLip&amp;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a>transitions[<span class="st">&quot;HyperLip&amp;Dm&quot;</span>,<span class="st">&quot;Ht&amp;HyperLip&amp;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a>transitions[<span class="st">&quot;HyperLip&amp;Dm&quot;</span>,<span class="st">&quot;Cad&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a>transitions[<span class="st">&quot;HyperLip&amp;Dm&quot;</span>,<span class="st">&quot;death&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-47"><a href="#cb2-47" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&amp;HyperLip&amp;Dm&quot;</span>,<span class="st">&quot;Ht&amp;HyperLip&amp;Dm&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-50"><a href="#cb2-50" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&amp;HyperLip&amp;Dm&quot;</span>,<span class="st">&quot;Cad&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-51"><a href="#cb2-51" tabindex="-1"></a>transitions[<span class="st">&quot;Ht&amp;HyperLip&amp;Dm&quot;</span>,<span class="st">&quot;death&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-52"><a href="#cb2-52" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" tabindex="-1"></a><span class="do">## absorbing states</span></span>
+<span id="cb2-55"><a href="#cb2-55" tabindex="-1"></a>transitions[<span class="st">&quot;death&quot;</span>,<span class="st">&quot;death&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-56"><a href="#cb2-56" tabindex="-1"></a>transitions[<span class="st">&quot;Cad&quot;</span>,<span class="st">&quot;Cad&quot;</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb2-57"><a href="#cb2-57" tabindex="-1"></a></span>
+<span id="cb2-58"><a href="#cb2-58" tabindex="-1"></a><span class="fu">print</span>(transitions)</span>
+<span id="cb2-59"><a href="#cb2-59" tabindex="-1"></a><span class="co">#&gt;                Health Ht HyperLip Dm Cad death Ht&amp;HyperLip HyperLip&amp;Dm Ht&amp;Dm</span></span>
+<span id="cb2-60"><a href="#cb2-60" tabindex="-1"></a><span class="co">#&gt; Health              1  1        1  1   1     1           0           0     0</span></span>
+<span id="cb2-61"><a href="#cb2-61" tabindex="-1"></a><span class="co">#&gt; Ht                  0  1        0  0   1     1           1           0     1</span></span>
+<span id="cb2-62"><a href="#cb2-62" tabindex="-1"></a><span class="co">#&gt; HyperLip            0  0        1  0   1     1           1           1     0</span></span>
+<span id="cb2-63"><a href="#cb2-63" tabindex="-1"></a><span class="co">#&gt; Dm                  0  0        0  1   1     1           0           1     1</span></span>
+<span id="cb2-64"><a href="#cb2-64" tabindex="-1"></a><span class="co">#&gt; Cad                 0  0        0  0   1     0           0           0     0</span></span>
+<span id="cb2-65"><a href="#cb2-65" tabindex="-1"></a><span class="co">#&gt; death               0  0        0  0   0     1           0           0     0</span></span>
+<span id="cb2-66"><a href="#cb2-66" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip         0  0        0  0   1     1           1           0     0</span></span>
+<span id="cb2-67"><a href="#cb2-67" tabindex="-1"></a><span class="co">#&gt; HyperLip&amp;Dm         0  0        0  0   1     1           0           1     0</span></span>
+<span id="cb2-68"><a href="#cb2-68" tabindex="-1"></a><span class="co">#&gt; Ht&amp;Dm               0  0        0  0   1     1           0           0     1</span></span>
+<span id="cb2-69"><a href="#cb2-69" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip&amp;Dm      0  0        0  0   1     1           0           0     0</span></span>
+<span id="cb2-70"><a href="#cb2-70" tabindex="-1"></a><span class="co">#&gt;                Ht&amp;HyperLip&amp;Dm</span></span>
+<span id="cb2-71"><a href="#cb2-71" tabindex="-1"></a><span class="co">#&gt; Health                      0</span></span>
+<span id="cb2-72"><a href="#cb2-72" tabindex="-1"></a><span class="co">#&gt; Ht                          0</span></span>
+<span id="cb2-73"><a href="#cb2-73" tabindex="-1"></a><span class="co">#&gt; HyperLip                    0</span></span>
+<span id="cb2-74"><a href="#cb2-74" tabindex="-1"></a><span class="co">#&gt; Dm                          0</span></span>
+<span id="cb2-75"><a href="#cb2-75" tabindex="-1"></a><span class="co">#&gt; Cad                         0</span></span>
+<span id="cb2-76"><a href="#cb2-76" tabindex="-1"></a><span class="co">#&gt; death                       0</span></span>
+<span id="cb2-77"><a href="#cb2-77" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip                 1</span></span>
+<span id="cb2-78"><a href="#cb2-78" tabindex="-1"></a><span class="co">#&gt; HyperLip&amp;Dm                 1</span></span>
+<span id="cb2-79"><a href="#cb2-79" tabindex="-1"></a><span class="co">#&gt; Ht&amp;Dm                       1</span></span>
+<span id="cb2-80"><a href="#cb2-80" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip&amp;Dm              1</span></span></code></pre></div>
+</div>
+<div id="indicate-your-at-risk-state-for-the-years-of-interest" class="section level1">
+<h1>Indicate your at risk state for the years of interest</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>df<span class="ot">=</span>dfh</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>ages<span class="ot">=</span><span class="fu">c</span>(<span class="dv">40</span><span class="sc">:</span><span class="dv">81</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>s<span class="ot">=</span><span class="fu">statusarray</span>(<span class="at">df_frame =</span> <span class="fu">data.table</span>(dfh),<span class="at">ages =</span> ages,<span class="at">nstates =</span> nstates)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>s<span class="ot">=</span><span class="fu">readRDS</span>(<span class="at">file =</span> <span class="st">&quot;~/multistate2/output/statusarray.rds&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">dim</span>(s)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; [1]     42 481927     11</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">head</span>(s[,<span class="dv">18</span>,])</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;    Health Ht HyperLip Dm Cad death Ht&amp;HyperLip HyperLip&amp;Dm Ht&amp;Dm Ht&amp;HyperLip&amp;Dm</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 40      0  1        0  0   0     0           0           0     0              0</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 41      0  1        0  0   0     0           0           0     0              0</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 42      0  1        0  0   0     0           0           0     0              0</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 43      0  1        0  0   0     0           0           0     0              0</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 44      0  1        0  0   0     0           0           0     0              0</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; 45      0  1        0  0   0     0           0           0     0              0</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;    out</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; 40   0</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; 41   0</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; 42   0</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; 43   0</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; 44   0</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; 45   0</span></span></code></pre></div>
+<div id="now-fit-the-model-which-will-expand-over-the-potential-transitions-in-the-transition-matrix-according-to-your-covariates-list" class="section level2">
+<h2>now fit the model which will expand over the potential transitions
+in the transition matrix according to your covariates list</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>ages<span class="ot">=</span><span class="dv">40</span><span class="sc">:</span><span class="dv">80</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>covariates<span class="ot">=</span><span class="st">&quot;f.31.0.0+cad.prs&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>mfit<span class="ot">=</span><span class="fu">modelfitfun</span>(<span class="at">ages =</span> ages,<span class="at">transit_mat=</span>transitions,covariates,<span class="at">df =</span> dfh,<span class="at">statusarray =</span> s)</span></code></pre></div>
+</div>
+<div id="now-we-will-need-to-extract-coefficients-for-each-age-and-relevant-state-to-state-transition" class="section level2">
+<h2>now we will need to extract coefficients for each age and relevant
+state to state transition</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>ages<span class="ot">=</span><span class="dv">40</span><span class="sc">:</span><span class="dv">80</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>mfit<span class="ot">=</span><span class="fu">readRDS</span>(<span class="st">&quot;~/multistate2/output/mfit.rds&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>coeff_array<span class="ot">=</span><span class="fu">coef_array_func</span>(<span class="at">ages =</span> ages,<span class="at">transit_mat =</span> transitions,<span class="at">modelfit =</span> mfit)</span></code></pre></div>
+</div>
+<div id="now-we-have-an-array-that-is-ages-x-start" class="section level2">
+<h2>now we have an array that is ages x start</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">dim</span>(coeff_array)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; [1] 41 10 10  3</span></span></code></pre></div>
+</div>
+<div id="then-we-will-need-to-compute-a-transition-matrix-for-each-age-and-persno" class="section level2">
+<h2>then we will need to compute a transition matrix for each age and
+persno</h2>
+<p>here is for one person with a particular covariate profile at age
+50</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>age<span class="ot">=</span><span class="dv">50</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>covariates<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>absorbing_states<span class="ot">=</span><span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>age_specific_matrix <span class="ot">&lt;-</span> <span class="fu">generate_single_transition_matrix</span>(<span class="at">age =</span> <span class="dv">50</span>, coeff_array, covariates, <span class="at">absorbing_states =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>))</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">print</span>(age_specific_matrix)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt;                   Health         Ht   HyperLip          Dm         Cad</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; Health         0.9715481 0.01730002 0.00409135 0.002131456 0.004714126</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; Ht             0.0000000 0.96000045 0.00000000 0.000000000 0.009526383</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; HyperLip       0.0000000 0.00000000 0.95785239 0.000000000 0.012247026</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; Dm             0.0000000 0.00000000 0.00000000 0.917167884 0.012291956</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; Cad            0.0000000 0.00000000 0.00000000 0.000000000 1.000000000</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; death          0.0000000 0.00000000 0.00000000 0.000000000 0.000000000</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip    0.0000000 0.00000000 0.00000000 0.000000000 0.013491672</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; HyperLip&amp;Dm    0.0000000 0.00000000 0.00000000 0.000000000 0.013167109</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; Ht&amp;Dm          0.0000000 0.00000000 0.00000000 0.000000000 0.016379530</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip&amp;Dm 0.0000000 0.00000000 0.00000000 0.000000000 0.018604906</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt;                       death Ht&amp;HyperLip HyperLip&amp;Dm       Ht&amp;Dm Ht&amp;HyperLip&amp;Dm</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; Health         0.0002149977  0.00000000 0.000000000 0.000000000     0.00000000</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; Ht             0.0004476218  0.02261348 0.000000000 0.007412063     0.00000000</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; HyperLip       0.0005076810  0.02485104 0.004541865 0.000000000     0.00000000</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; Dm             0.0012355192  0.00000000 0.023779831 0.045524811     0.00000000</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; Cad            0.0000000000  0.00000000 0.000000000 0.000000000     0.00000000</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; death          1.0000000000  0.00000000 0.000000000 0.000000000     0.00000000</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip    0.0011547498  0.97305083 0.000000000 0.000000000     0.01230274</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; HyperLip&amp;Dm    0.0009954646  0.00000000 0.935657698 0.000000000     0.05017973</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; Ht&amp;Dm          0.0010886233  0.00000000 0.000000000 0.925276689     0.05725516</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip&amp;Dm 0.0032770778  0.00000000 0.000000000 0.000000000     0.97811802</span></span></code></pre></div>
+<p>Note that the probs for each row sum to 1 and the for the absorbing
+states the j,j entry is 1.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">rowSums</span>(age_specific_matrix)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt;         Health             Ht       HyperLip             Dm            Cad </span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt;              1              1              1              1              1 </span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt;          death    Ht&amp;HyperLip    HyperLip&amp;Dm          Ht&amp;Dm Ht&amp;HyperLip&amp;Dm </span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt;              1              1              1              1              1</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>age_specific_matrix[absorbing_states[<span class="dv">1</span>],absorbing_states[<span class="dv">1</span>]]</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>age_specific_matrix[absorbing_states[<span class="dv">2</span>],absorbing_states[<span class="dv">2</span>]]</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span></code></pre></div>
+</div>
+<div id="now-lets-compute-over-an-entire-interval" class="section level2">
+<h2>Now let’s compute over an entire interval:</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>age_start <span class="ot">&lt;-</span> <span class="dv">40</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>age_end <span class="ot">&lt;-</span> <span class="dv">80</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>indcovariates<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># Execute the function.</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>result_matrix <span class="ot">&lt;-</span> <span class="fu">calculate_matrix_product_over_interval</span>(coeff_array, indcovariates, age_start, age_end,<span class="at">absorbing_states =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>))</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="fu">print</span>(result_matrix)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt;                   Health        Ht   HyperLip         Dm       Cad     death</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; Health         0.2065803 0.1240928 0.05032091 0.01000317 0.3569705 0.1248853</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; Ht             0.0000000 0.1388334 0.00000000 0.00000000 0.4569866 0.1342407</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; HyperLip       0.0000000 0.0000000 0.14994153 0.00000000 0.4655195 0.1169039</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; Dm             0.0000000 0.0000000 0.00000000 0.03111346 0.5214471 0.1608349</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; Cad            0.0000000 0.0000000 0.00000000 0.00000000 1.0000000 0.0000000</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; death          0.0000000 0.0000000 0.00000000 0.00000000 0.0000000 1.0000000</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip    0.0000000 0.0000000 0.00000000 0.00000000 0.5048039 0.1359571</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; HyperLip&amp;Dm    0.0000000 0.0000000 0.00000000 0.00000000 0.5544498 0.1634129</span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; Ht&amp;Dm          0.0000000 0.0000000 0.00000000 0.00000000 0.5739449 0.1619747</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip&amp;Dm 0.0000000 0.0000000 0.00000000 0.00000000 0.5741473 0.1923298</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co">#&gt;                Ht&amp;HyperLip HyperLip&amp;Dm      Ht&amp;Dm Ht&amp;HyperLip&amp;Dm</span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt; Health          0.08505024  0.00446549 0.01813763     0.01949358</span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a><span class="co">#&gt; Ht              0.18657062  0.00000000 0.02763840     0.05573024</span></span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="co">#&gt; HyperLip        0.20102436  0.01370875 0.00000000     0.05290189</span></span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt; Dm              0.00000000  0.03481098 0.07962504     0.17216859</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt; Cad             0.00000000  0.00000000 0.00000000     0.00000000</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; death           0.00000000  0.00000000 0.00000000     0.00000000</span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip     0.26666819  0.00000000 0.00000000     0.09257080</span></span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="co">#&gt; HyperLip&amp;Dm     0.00000000  0.04814207 0.00000000     0.23399526</span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co">#&gt; Ht&amp;Dm           0.00000000  0.00000000 0.05048024     0.21360017</span></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="co">#&gt; Ht&amp;HyperLip&amp;Dm  0.00000000  0.00000000 0.00000000     0.23352290</span></span></code></pre></div>
+</div>
+<div id="result_matrix-now-contains-the-product-of-transition-matrices-over-the-specified-age-interval." class="section level2">
+<h2>‘result_matrix’ now contains the product of transition matrices over
+the specified age interval.</h2>
+<p>Confirm that result matches the product of individual matrices:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>ml<span class="ot">=</span><span class="fu">mat.test</span>(<span class="at">coefficients =</span> coeff_array,<span class="at">covariates =</span> covariates,<span class="at">age_start =</span> <span class="dv">40</span>,<span class="at">age_end =</span> <span class="dv">79</span>,<span class="at">absorbing_states =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">6</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>cumulative_product <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="cf">function</span>(x, y) x <span class="sc">%*%</span> y, ml)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">all.equal</span>(cumulative_product,result_matrix)</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

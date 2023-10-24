@@ -1,0 +1,175 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE,message=FALSE,warning=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Model fitting
+
+* load data
+
+```{r}
+data_dir="/Users/sarahurbut/Library/CloudStorage/Dropbox-Personal"
+load(paste0(data_dir,'/pheno_dir/output/merged_pheno_censor_final_withdrugs_smoke.rds'))
+library(MSGene)
+library(data.table)
+```
+
+# set transition matrix 
+```{r}
+nstates=c("Health","Ht","HyperLip","Dm","Cad","death","Ht&HyperLip","HyperLip&Dm","Ht&Dm","Ht&HyperLip&Dm")
+transitions=matrix(0,nrow = 10,ncol=10)
+rownames(transitions)=nstates
+colnames(transitions)=nstates
+
+transitions["Health","Health"]=1
+transitions["Health","Ht"]=1
+transitions["Health","HyperLip"]=1
+transitions["Health","Dm"]=1
+transitions["Health","Cad"]=1
+transitions["Health","death"]=1
+
+transitions["Ht","Ht"]=1
+transitions["Ht","Ht&HyperLip"]=1
+transitions["Ht","Ht&Dm"]=1
+transitions["Ht","Cad"]=1
+transitions["Ht","death"]=1
+
+
+transitions["HyperLip","HyperLip"]=1
+transitions["HyperLip","Ht&HyperLip"]=1
+transitions["HyperLip","HyperLip&Dm"]=1
+transitions["HyperLip","Cad"]=1
+transitions["HyperLip","death"]=1
+
+transitions["Dm","Dm"]=1
+transitions["Dm","Ht&Dm"]=1
+transitions["Dm","HyperLip&Dm"]=1
+transitions["Dm","Cad"]=1
+transitions["Dm","death"]=1
+
+transitions["Ht&HyperLip","Ht&HyperLip"]=1
+transitions["Ht&HyperLip","Ht&HyperLip&Dm"]=1
+transitions["Ht&HyperLip","Cad"]=1
+transitions["Ht&HyperLip","death"]=1
+
+transitions["Ht&Dm","Ht&Dm"]=1
+transitions["Ht&Dm","Ht&HyperLip&Dm"]=1
+transitions["Ht&Dm","Cad"]=1
+transitions["Ht&Dm","death"]=1
+
+
+transitions["HyperLip&Dm","HyperLip&Dm"]=1
+transitions["HyperLip&Dm","Ht&HyperLip&Dm"]=1
+transitions["HyperLip&Dm","Cad"]=1
+transitions["HyperLip&Dm","death"]=1
+
+
+transitions["Ht&HyperLip&Dm","Ht&HyperLip&Dm"]=1
+transitions["Ht&HyperLip&Dm","Cad"]=1
+transitions["Ht&HyperLip&Dm","death"]=1
+
+
+## absorbing states
+transitions["death","death"]=1
+transitions["Cad","Cad"]=1
+
+print(transitions)
+```
+
+# Indicate your at risk state for the years of interest 
+
+
+```{r,eval=F}
+df=dfh
+ages=c(40:81)
+s=statusarray(df_frame = data.table(dfh),ages = ages,nstates = nstates)
+```
+
+```{r}
+s=readRDS(file = "~/multistate2/output/statusarray.rds")
+dim(s)
+head(s[,18,])
+```
+
+## now fit the model which will expand over the potential transitions in the transition matrix according to your covariates list
+
+```{r,eval=F}
+ages=40:80
+covariates="f.31.0.0+cad.prs"
+mfit=modelfitfun(ages = ages,transit_mat=transitions,covariates,df = dfh,statusarray = s)
+```
+
+  
+## now we will need to extract coefficients for each age and relevant state to state transition 
+
+```{r,warning=FALSE,message=FALSE}
+ages=40:80
+mfit=readRDS("~/multistate2/output/mfit.rds")
+coeff_array=coef_array_func(ages = ages,transit_mat = transitions,modelfit = mfit)
+```
+
+## now we have an array that is ages x start 
+```{r}
+dim(coeff_array)
+```
+
+
+## then we will need to compute a transition matrix for each age and persno
+
+here is for one person with a particular covariate profile at age 50
+
+```{r}
+age=50
+covariates=c(1,1,1)
+absorbing_states=c(5,6)
+
+
+age_specific_matrix <- generate_single_transition_matrix(age = 50, coeff_array, covariates, absorbing_states = c(5, 6))
+print(age_specific_matrix)
+
+```
+
+Note that the probs for each row sum to 1 and the for the absorbing states the j,j entry is 1.
+
+```{r}
+rowSums(age_specific_matrix)
+age_specific_matrix[absorbing_states[1],absorbing_states[1]]
+age_specific_matrix[absorbing_states[2],absorbing_states[2]]
+```
+
+## Now let's compute over an entire interval: 
+
+```{r}
+age_start <- 40
+age_end <- 80
+indcovariates=c(1,1,1)
+# Execute the function.
+result_matrix <- calculate_matrix_product_over_interval(coeff_array, indcovariates, age_start, age_end,absorbing_states = c(5,6))
+
+print(result_matrix)
+```
+
+## 'result_matrix' now contains the product of transition matrices over the specified age interval.
+
+Confirm that result matches the product of individual matrices:
+
+```{r}
+ml=mat.test(coefficients = coeff_array,covariates = covariates,age_start = 40,age_end = 79,absorbing_states = c(5,6))
+
+cumulative_product <- Reduce(function(x, y) x %*% y, ml)
+
+all.equal(cumulative_product,result_matrix)
+```
