@@ -61,7 +61,7 @@ modelfit = fitfunc2(
   ages = ages,
   nstates = nstates,
   mode = "binomial",
-  covariates = "cad.prs+f.31.0.0+smoke+antihtn_now+statin_now")
+  covariates = "cad.prs+f.31.0.0")
 ```
 
 ### Look at all that we've produced! 
@@ -106,6 +106,43 @@ coefmat = healthy_coefs,
 atrisk = atrisk,
 agepredinterval = c(40:80)
 )
+
+
+intercept=1
+sex=c(0,1)
+cad.prs=c(-2,-1,0,1,2)
+atrisk=expand.grid(intercept,cad.prs,sex) 
+
+atrisk=expand.grid(intercept,cad.prs,sex) 
+mso = compute_prediction_product_matrix(
+coefmat = healthy_coefs,
+atrisk = atrisk,
+agepredinterval = c(40:80)
+)
+mso$PredictedIntervalrisk[9]
+
+
+## check with other
+coeff_array=coef_array_func(ages = ages,transit_mat = transitions,modelfit = mfit)
+
+cmat=coeff_array[,"Health","Cad",]
+
+intercept=1
+sex=c(0,1)
+cad.prs=c(-2,-1,0,1,2)
+atrisk=expand.grid(intercept,cad.prs,sex) 
+
+mso = compute_prediction_product_matrix(
+coefmat = cmat,
+atrisk = atrisk,
+agepredinterval = c(40:80)
+)
+
+mso$PredictedIntervalrisk[9]
+
+
+
+
 ```
 
 * remaining lifetime risk matrix starting from each 40 for all 80 individuals in the profile

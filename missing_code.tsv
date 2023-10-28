@@ -1,0 +1,176 @@
+f.20002	ICD10	ICD9	READ2	CTV3	DMD	BNF	READ2_drugs
+7330	"J46	"	25003	G2101	14S3.	134489001	02.12.04.00	x008T
+73309	"C349	"	25013	G2111	G2101	319996000	02.12.02.00	x01Li
+1003	L791	25023	G21z1	G2111	319997009		x006f
+1059	"D689	1"	25031	G232.	G232.	320000009		x01R2
+1060		25033	G234.	G234.	320006003		x01R3
+1061		25041	G5800	SP084	320012008		bx5
+1062		25043	G582.	X202v	320013003		bx7
+		25051	SP084	X202w	320014009		bx9
+		25053	SP111	XaD2d	320022002		bxn
+		25061	G36..	XaD2e	320023007		bxo
+		25063	G380.	XaD2f	320025000		x01R0
+		25071	G381.	XaD2g	320029006		x01QX
+		25073	G382.	XaD2h	320030001		x00en
+		25081	G383.	XaD2i	320031002		x00eq
+		25083	G38z.	G350.	320035006		x00f0
+		25093	G3010	G353.	320036007		x00fw
+		25002	G30y0	X200J	320037003		x01Qe
+		25012	G30y1	X200H	320041004		x01Qf
+		25022	G30y2	Gyu35	408024009		x01Qg
+		25030	Gyu34	Gyu36	408036003		x05df
+		25032	G350.	X200U	408037007		bkI
+		25040	G351.	X200T	409108001		bkJ
+		25042	G353.	X200R	414177002		b515
+		25050	Gyu35	X200O	414178007		b51E
+		25052	Gyu36	X200N	414179004		b51F
+		25060	G344.	X200d	4580311000001109		b51G
+		25062	G362.	79292	19722411000001106		b51K
+		25070	79292	7929y	19722511000001105		b51O
+		25072	7929y	X00tT	20528511000001106		b51P
+		25080	7929z	X00tL	20528611000001105		b51Q
+		25082	793Gy	X200b	240705001000027108		b51d
+		25092	79283	X40Jj	240715001000027105		b51e
+		434X	793Ny	C1020	299275001000027104		b51g
+		4366	C10EA	C1073			b51m
+			C1010	C1070			b51s
+			C1020	C1086			b51v
+			C1030	C10y0			b51w
+			C1070	C10z0			b911
+			C1083	X40JY			b915
+			C1085	XafjT			b91c
+			C1086	C1031			b91e
+			C10y0	C1071			bi1D
+			C10z0	C1021			bi1E
+			C10E4	C1072			bi1F
+			C1084	C10y1			bi1e
+			C108A	L1800			bi1f
+			C108E	L1801			bi3u
+			C10EE	L1802			bi3v
+			C1093	L1804			bi3w
+			C1094	L180z			bi3x
+			C1095	X40Jk			bi4F
+			C10y1	bxj			bk3A
+			C10z1	bx3			bl5i
+			C10FD	bx4			x02Rh
+			C109D	bx5			x02Ri
+			L180z	bx6			x02Rj
+			L1802	bx7			x02SC
+			L1803	bx8			x00Tb
+			L1804	bx9			x01C0
+			L1800	bxf			x01C1
+			Cyu8E	bxh			x01C2
+			G23..	bxm			x01C4
+			G240z	bxn			x01C7
+			G241z	bxo			x01CA
+			12CT.	x01R0			x01CB
+				G241z			x01CJ
+				Xa0lt			x02Rk
+				bk6			x01CG
+				x00en			blg
+				x00eq			x00Du
+				x00f0			x01CV
+				x00fw			bk62
+				x01Qf			x00Th
+				x05df			x01QU
+				bkB			x01CU
+				bkC			
+				bkH			
+				bkI			
+				bkJ			
+				b511			
+				b512			
+				b513			
+				b514			
+				b515			
+				b518			
+				b51C			
+				b51E			
+				b51G			
+				b51K			
+				b51O			
+				b51P			
+				b51Q			
+				b51a			
+				b51c			
+				b51d			
+				b51e			
+				b51f			
+				b51g			
+				b51j			
+				b51k			
+				b51l			
+				b51m			
+				b51p			
+				b51q			
+				b51r			
+				b51s			
+				b51v			
+				b51w			
+				b911			
+				b913			
+				b915			
+				b916			
+				b919			
+				b91a			
+				b91c			
+				b91e			
+				bi1D			
+				bi1E			
+				bi1F			
+				bi1G			
+				bi1e			
+				bi1s			
+				bi2b			
+				bi3n			
+				bi3p			
+				bi3s			
+				bi3t			
+				bi3u			
+				bi3v			
+				bi3w			
+				bi3x			
+				bi48			
+				bi4F			
+				bi55			
+				bi56			
+				biC7			
+				biC8			
+				bk36			
+				bk39			
+				bk3A			
+				bk47			
+				bk48			
+				bk49			
+				bk4y			
+				bk57			
+				bk58			
+				bk59			
+				bk5z			
+				bk86			
+				bk87			
+				bk88			
+				bk8w			
+				bk8x			
+				bk8y			
+				bl5i			
+				x02Rh			
+				x02Ri			
+				x02Rj			
+				x02SC			
+				x00Tb			
+				x01C0			
+				x01C2			
+				x01C7			
+				x01CB			
+				x01CG			
+				bl7			
+				bla			
+				bll			
+				x00Du			
+				x01CV			
+				bk62			
+				x00Th			
+				x01QU			
+				x01CU			
+				XaOc8			

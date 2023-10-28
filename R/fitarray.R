@@ -127,11 +127,23 @@ fitfunc = function(df_frame, ages, nstates, mode,covariates) {
       mean[i, "Cad", 1] = censored / NAR
 
       rm(censored)
+      # fit2 = glm(
+      #   family = mode,as.formula(paste0("
+      #   ifelse(
+      #     Cad_0_censor_age <= nx &
+      #       Cad_0_Any == 2 & nx < Death_Censor_Age,
+      #     1,
+      #     0
+      #   ) ~", new_list)),
+      #   ## here age represents time in state
+      #   data = atrisk
+      # )
+
       fit2 = glm(
         family = mode,as.formula(paste0("
         ifelse(
           Cad_0_censor_age <= nx &
-            Cad_0_Any == 2 & nx < Death_Censor_Age,
+            Cad_0_Any == 2,
           1,
           0
         ) ~", new_list)),

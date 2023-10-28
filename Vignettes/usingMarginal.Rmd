@@ -25,15 +25,19 @@ data_dir="/Users/sarahurbut/Library/CloudStorage/Dropbox-Personal"
 load(paste0(data_dir,'/pheno_dir/output/merged_pheno_censor_final_withdrugs_smoke.rds'))
 library(MSGene)
 library(data.table)
+
+
+
+train=dfh[1:(nrow(dfh)*0.80),]
 ```
 
 # set transition matrix 
 ```{r}
 nstates=c("Health","Ht","HyperLip","Dm","Cad","death","Ht&HyperLip","HyperLip&Dm","Ht&Dm","Ht&HyperLip&Dm")
-transitions=matrix(0,nrow = 10,ncol=10)
+
+transitions=matrix(0,nrow = length(nstates),ncol=length(nstates))
 rownames(transitions)=nstates
 colnames(transitions)=nstates
-
 transitions["Health","Health"]=1
 transitions["Health","Ht"]=1
 transitions["Health","HyperLip"]=1
@@ -93,9 +97,9 @@ print(transitions)
 
 
 ```{r,eval=F}
-df=dfh
+
 ages=c(40:81)
-s=statusarray(df_frame = data.table(dfh),ages = ages,nstates = nstates)
+s=statusarray(df_frame = data.table(train),ages = ages,nstates = nstates)
 ```
 
 ```{r}
@@ -107,9 +111,9 @@ head(s[,18,])
 ## now fit the model which will expand over the potential transitions in the transition matrix according to your covariates list
 
 ```{r,eval=F}
-ages=40:80
-covariates="f.31.0.0+cad.prs"
-mfit=modelfitfun(ages = ages,transit_mat=transitions,covariates,df = dfh,statusarray = s)
+ages=40:79
+covariates="cad.prs+f.31.0.0"
+mfit=modelfitfun(ages = ages,transit_mat=transitions,covariates,df = train,statusarray = s)
 ```
 
   
