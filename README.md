@@ -45,7 +45,8 @@ modelfit = fitfunc2(
 ```
 
 For more details, including state to state coefficient extraction, lifetime probabilities of disease under treated and untreated strategy, please see our test vignette at 
-https://surbut.github.io/MSGene/vignette.html
+https://surbut.github.io/MSGene/vignette.html 
+and 
 https://surbut.github.io/MSGene/usingMarginal.html
 
 
