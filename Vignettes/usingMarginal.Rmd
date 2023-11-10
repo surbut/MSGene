@@ -103,7 +103,7 @@ s=statusarray(df_frame = data.table(train),ages = ages,nstates = nstates)
 ```
 
 ```{r}
-s=readRDS(file = "~/multistate2/output/statusarray.rds")
+#s=readRDS(file = "~/multistate2/output/statusarray.rds")
 dim(s)
 head(s[,18,])
 ```
@@ -174,8 +174,11 @@ result_matrix <- calculate_matrix_product_over_interval(coeff_array, indcovariat
 
 
 print(result_matrix)
+```
 
-## we can also compute the lifetime risk as a product of one step and compare differences
+Great!  But can also compute the lifetime risk as a product of one step and compare differences with our earlier 'conditional' method:
+
+```{r}
 cmat=coeff_array[,"Health","Cad",]
 
 intercept=1
@@ -192,7 +195,7 @@ atrisk = atrisk,
 agepredinterval = c(40:80)
 )
 
-mso$PredictedIntervalrisk[2]
+result1=mso$PredictedIntervalrisk[2]
 
 
 ## compare
@@ -216,7 +219,7 @@ You can see in this array we have the number of events, the absolute rate per ye
 
 ### Extract coefficients for health-->CAD transition
 
-To compute our risk calculations, we need to extract the unsmoothed coefficients, we will feed through a smoother, and then use these coefficients to compute our product.
+To compute our risk calculations, we need to extract the unsmoothed coefficients, we will feed through a smoother, and then use these coefficients to compute our product. We want to check to make sure these match!
 
 ```{r}
 a = coefplotsmooth2(
@@ -238,8 +241,8 @@ atrisk = atrisk,
 agepredinterval = c(40:80)
 )
 
-mso$PredictedIntervalrisk[2]
-
+result2=mso$PredictedIntervalrisk[2]
+all.equal(result1,result2)
 ```
 
 ## 'result_matrix' now contains the product of transition matrices over the specified age interval.
@@ -247,6 +250,7 @@ mso$PredictedIntervalrisk[2]
 Confirm that result matches the product of individual matrices:
 
 ```{r}
+covariates=c(1,1,1,0,0,0)
 ml=mat.test(coefficients = coeff_array,covariates = covariates,age_start = 40,age_end = 79,absorbing_states = c(5,6))
 
 cumulative_product <- Reduce(function(x, y) x %*% y, ml)
