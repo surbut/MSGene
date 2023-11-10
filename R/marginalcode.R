@@ -24,6 +24,7 @@ modelfitfun=function(ages,transit_mat,covariates,df,statusarray,mode="binomial")
   # Loop through each age
 
 
+
   for (age in ages) {
 
     agename=as.character(age)
@@ -143,6 +144,11 @@ generate_single_transition_matrix <- function(age, coeff_array, covariates, abso
   for (start_state in 1:n_states) {
     for (end_state in 1:n_states) {
       current_coeffs <- coeff_array[as.character(age), start_state, end_state, ]
+
+      # Check if the length of covariates matches the number of coefficients
+      if (length(current_coeffs) != length(covariates)) {
+        stop("The length of covariates must match the number of coefficients.")
+      }
 
       if (!all(is.na(current_coeffs))) {  # Check if coefficients are not all NA
         # Calculate the log odds ratio and convert to probability

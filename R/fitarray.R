@@ -116,7 +116,7 @@ fitfunc = function(df_frame, ages, nstates, mode,covariates) {
 
       rm(censored)
 
-      ## from Health (1) to CAD directly alone
+      ## from Health (1) to CAD (or CAD death) directly alone
 
       censored = dim(atrisk[which(Cad_0_censor_age <= nx &
                                     Cad_0_Any == 2 #&

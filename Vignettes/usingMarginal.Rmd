@@ -111,9 +111,11 @@ head(s[,18,])
 ## now fit the model which will expand over the potential transitions in the transition matrix according to your covariates list
 
 ```{r,eval=F}
-ages=40:79
-covariates="cad.prs+f.31.0.0"
+ages=40:80
+covariates="cad.prs+f.31.0.0+smoke+antihtn_now+statin_now"
+train$cad.prs=scale(train$cad.prs)
 mfit=modelfitfun(ages = ages,transit_mat=transitions,covariates,df = train,statusarray = s)
+saveRDS(mfit,file = "~/multistate2/output/mfit.rds")
 ```
 
   
@@ -137,7 +139,7 @@ here is for one person with a particular covariate profile at age 50
 
 ```{r}
 age=50
-covariates=c(1,1,1)
+covariates=c(1,1,1,0,0,0)
 absorbing_states=c(5,6)
 
 
@@ -159,11 +161,85 @@ age_specific_matrix[absorbing_states[2],absorbing_states[2]]
 ```{r}
 age_start <- 40
 age_end <- 80
-indcovariates=c(1,1,1)
+indcovariates=c(1,1,1,0,0,0)
 # Execute the function.
+
+
 result_matrix <- calculate_matrix_product_over_interval(coeff_array, indcovariates, age_start, age_end,absorbing_states = c(5,6))
 
+# result_list=list()
+# for(i in 1:nrow(atrisk)){
+#   result_list[[i]]=calculate_matrix_product_over_interval(coeff_array, atrisk[i,], age_start, age_end,absorbing_states = c(5,6))
+# }
+
+
 print(result_matrix)
+
+## we can also compute the lifetime risk as a product of one step and compare differences
+cmat=coeff_array[,"Health","Cad",]
+
+intercept=1
+sex=c(0,1)
+cad.prs=1
+smoke=0
+antihtn_now=0
+statin_now=0
+atrisk=expand.grid(intercept,cad.prs,sex,smoke,antihtn_now,statin_now) 
+
+mso = compute_prediction_product_matrix(
+coefmat = cmat,
+atrisk = atrisk,
+agepredinterval = c(40:80)
+)
+
+mso$PredictedIntervalrisk[2]
+
+
+## compare
+
+covariates="cad.prs+f.31.0.0+smoke+antihtn_now+statin_now"
+modelfit = fitfunc2(
+  df_frame=data.table::data.table(train),
+  ages = ages,
+  nstates = nstates,
+  mode = "binomial",
+  covariates = covariates)
+```
+
+### Look at all that we've produced! 
+
+```{r}
+attributes(modelfit)
+```
+
+You can see in this array we have the number of events, the absolute rate per year per transition, the number at risk per year and per transition, and the list of models over years and states.
+
+### Extract coefficients for health-->CAD transition
+
+To compute our risk calculations, we need to extract the unsmoothed coefficients, we will feed through a smoother, and then use these coefficients to compute our product.
+
+```{r}
+a = coefplotsmooth2(
+    ages = ages,
+    start = nstates[1],
+    stop = "Cad",
+    modelfit = modelfit,
+    window_width = 20,
+    span = 0.75,
+    degree = 2
+  )
+healthy_coefs = a$custom_smooth
+
+
+
+mso = compute_prediction_product_matrix(
+coefmat = healthy_coefs,
+atrisk = atrisk,
+agepredinterval = c(40:80)
+)
+
+mso$PredictedIntervalrisk[2]
+
 ```
 
 ## 'result_matrix' now contains the product of transition matrices over the specified age interval.
