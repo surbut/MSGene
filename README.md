@@ -1,7 +1,9 @@
-# MSGene
-R package for multistate modeling
+## MSGene
+* R package for multistate modeling
 
 Welcome to our package for estimating lifetime probabilities iterated over a multistate model!! 
+
+This repository contains codes for implementing MSGene, a framework for dynamic risk modelling of coronary artery disease using genetic risk and the electronic health record with multistate modelling. Detailed description of MSGene development can be found in the manuscript [MSGene: Derivation and validation of a multistate model for lifetime risk of coronary artery disease using genetic risk and the electronic health record](https://www.medrxiv.org/content/10.1101/2023.11.08.23298229v1)
 
 To install:
 
@@ -12,7 +14,7 @@ library(MSGene)
 
 To run this code with minimal example and compute the model fit, we create a sample data frame with the following columns. Note that cases are written as 2, controls as 1. If an individual does not have a condition, his censor age is the age of last follow up or death. Please see [ukbpheno](https://github.com/niekverw/ukbpheno/tree/master) for directions on deriving case control status from your data. Here statin and antihtn refer to the use of statins or antithn, and age (or NA) of prescription. This is to produce the training and computation listed in Urbut et al. 
 
-# Load the dummy data
+# Load the sample data
 
 ```{r}
 df2 <- readRDS(system.file("data", "msgene_sampledf.rds", package = "MSGene"))

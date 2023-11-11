@@ -352,11 +352,20 @@ display: none;
 </div>
 
 
-<div id="msgene" class="section level1">
-<h1>MSGene</h1>
-<p>R package for multistate modeling</p>
+<div id="msgene" class="section level2">
+<h2>MSGene</h2>
+<ul>
+<li>R package for multistate modeling</li>
+</ul>
 <p>Welcome to our package for estimating lifetime probabilities iterated
 over a multistate model!!</p>
+<p>This repository contains codes for implementing MSGene, a framework
+for dynamic risk modelling of coronary artery disease using genetic risk
+and the electronic health record with multistate modelling. Detailed
+description of MSGene development can be found in the manuscript <a href="https://www.medrxiv.org/content/10.1101/2023.11.08.23298229v1">MSGene:
+Derivation and validation of a multistate model for lifetime risk of
+coronary artery disease using genetic risk and the electronic health
+record</a></p>
 <p>To install:</p>
 <p><code>{r} devtools::install_github(&quot;surbut/MSGene&quot;); library(MSGene)</code></p>
 <p>To run this code with minimal example and compute the model fit, we
@@ -369,8 +378,8 @@ and antihtn refer to the use of statins or antithn, and age (or NA) of
 prescription. This is to produce the training and computation listed in
 Urbut et al. </p>
 </div>
-<div id="load-the-dummy-data" class="section level1">
-<h1>Load the dummy data</h1>
+<div id="load-the-sample-data" class="section level1">
+<h1>Load the sample data</h1>
 <p><code>{r} df2 &lt;- readRDS(system.file(&quot;data&quot;, &quot;msgene_sampledf.rds&quot;, package = &quot;MSGene&quot;)) head(df2)</code></p>
 </div>
 <div id="set-a-training-set" class="section level1">
