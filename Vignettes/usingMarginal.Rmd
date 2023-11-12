@@ -21,13 +21,9 @@ knitr::opts_chunk$set(
 * load data
 
 ```{r}
-data_dir="/Users/sarahurbut/Library/CloudStorage/Dropbox-Personal"
-load(paste0(data_dir,'/pheno_dir/output/merged_pheno_censor_final_withdrugs_smoke.rds'))
 library(MSGene)
 library(data.table)
-
-
-
+dfh <- readRDS(system.file("data", "msgene_sampledf.rds", package = "MSGene"))
 train=dfh[1:(nrow(dfh)*0.80),]
 ```
 
@@ -96,26 +92,23 @@ print(transitions)
 # Indicate your at risk state for the years of interest 
 
 
-```{r,eval=F}
-
+```{r,warning=FALSE,message=FALSE}
 ages=c(40:81)
 s=statusarray(df_frame = data.table(train),ages = ages,nstates = nstates)
 ```
 
 ```{r}
-#s=readRDS(file = "~/multistate2/output/statusarray.rds")
 dim(s)
 head(s[,18,])
 ```
 
 ## now fit the model which will expand over the potential transitions in the transition matrix according to your covariates list
 
-```{r,eval=F}
+```{r,warning=FALSE,message=FALSE}
 ages=40:80
 covariates="cad.prs+f.31.0.0+smoke+antihtn_now+statin_now"
 train$cad.prs=scale(train$cad.prs)
 mfit=modelfitfun(ages = ages,transit_mat=transitions,covariates,df = train,statusarray = s)
-saveRDS(mfit,file = "~/multistate2/output/mfit.rds")
 ```
 
   
@@ -123,7 +116,6 @@ saveRDS(mfit,file = "~/multistate2/output/mfit.rds")
 
 ```{r,warning=FALSE,message=FALSE}
 ages=40:80
-mfit=readRDS("~/multistate2/output/mfit.rds")
 coeff_array=coef_array_func(ages = ages,transit_mat = transitions,modelfit = mfit)
 ```
 

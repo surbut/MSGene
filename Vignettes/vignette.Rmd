@@ -32,7 +32,7 @@ First, we load our sample data frame. You will need to request a data frame with
 ```{r eval=T,echo=FALSE}
 df2 <- readRDS(system.file("data", "msgene_sampledf.rds", package = "MSGene"))
 head(df2)
-head(df2)
+
 ```
 
 ## Set a training set
@@ -92,13 +92,11 @@ healthy_coefs = a$custom_smooth
 
 ```{r}
 ## create sample matrix to test
-
 intercept=1
 sex=c(0,1)
 cad.prs=c(1)
 atrisk=expand.grid(intercept,cad.prs,sex) 
 
-atrisk=expand.grid(intercept,cad.prs,sex) 
 mso = compute_prediction_product_matrix(
 coefmat = healthy_coefs,
 atrisk = atrisk,
@@ -129,6 +127,5 @@ mso$Hazard_treated
 
 You can also make cool plots examining the proportional occupancy of each state:
 
+<img src="../data/proportionaloccupancy.png" width="50%" />
 
-
-![Proportional Plot](data/proportionaloccupancy.png)
