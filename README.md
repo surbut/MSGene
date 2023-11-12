@@ -12,7 +12,13 @@ devtools::install_github("surbut/MSGene");
 library(MSGene)
 ```
 
-To run this code with minimal example and compute the model fit, we create a sample data frame with the following columns. Note that cases are written as 2, controls as 1. If an individual does not have a condition, his censor age is the age of last follow up or death. Please see [ukbpheno](https://github.com/niekverw/ukbpheno/tree/master) for directions on deriving case control status from your data. Here statin and antihtn refer to the use of statins or antithn, and age (or NA) of prescription. This is to produce the training and computation listed in Urbut et al. 
+To run this code with minimal example and compute the model fit, we create a sample data frame with the following columns. Note that cases are written as 2, controls as 1. If an individual does not have a condition, his censor age is the age of last follow up or death.
+
+Please see [ukbpheno](https://github.com/niekverw/ukbpheno/tree/master) for directions on deriving case control status from your data. Here statin and antihtn refer to the use of statins or antithn, and age (or NA) of prescription. This is to produce the training and computation listed in Urbut et al. 
+
+We include a simulated data set with the appropriate column names. Here, field f.31.0.0 represents the sex indicator from the UKB. UK Biobank is open to all researchers with appropriate credentials and IRB approval, [UK Biobank](https://www.ukbiobank.ac.uk).
+
+## ADD DESCRIPTIONS TO VARIABLE NAMES SMURBUT
 
 # Load the sample data
 
@@ -49,7 +55,12 @@ modelfit = fitfunc2(
   nstates = nstates,
   mode = "binomial",
   covariates = "cad.prs+f.31.0.0+smoke+antihtn_now+statin_now")
-  print(attributes(modelfit))
+```
+
+Here you can see all the we produce:
+
+```{r}
+print(attributes(modelfit))
 ```
 
 This produces the model fit. For more details, including state to state coefficient extraction, lifetime probabilities of disease under treated and untreated strategy, please see our test vignette at 

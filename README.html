@@ -371,12 +371,16 @@ record</a></p>
 <p>To run this code with minimal example and compute the model fit, we
 create a sample data frame with the following columns. Note that cases
 are written as 2, controls as 1. If an individual does not have a
-condition, his censor age is the age of last follow up or death. Please
-see <a href="https://github.com/niekverw/ukbpheno/tree/master">ukbpheno</a> for
+condition, his censor age is the age of last follow up or death.</p>
+<p>Please see <a href="https://github.com/niekverw/ukbpheno/tree/master">ukbpheno</a> for
 directions on deriving case control status from your data. Here statin
 and antihtn refer to the use of statins or antithn, and age (or NA) of
 prescription. This is to produce the training and computation listed in
 Urbut et al. </p>
+<p>We include a simulated data set with the appropriate column names.
+Here, field f.31.0.0 represents the sex indicator from the UKB. UK
+Biobank is open to all researchers with appropriate credentials and IRB
+approval, <a href="https://www.ukbiobank.ac.uk">UK Biobank</a>.</p>
 </div>
 <div id="load-the-sample-data" class="section level1">
 <h1>Load the sample data</h1>
@@ -397,7 +401,9 @@ through.</p>
 <h2>Fit our model</h2>
 <p>Now we’re ready to fit our model! Sit tight, this step takes between
 60-90 seconds … but it’s worth it.</p>
-<p><code>{r} modelfit = fitfunc2(   df_frame=data.table::data.table(train),   ages = ages,   nstates = nstates,   mode = &quot;binomial&quot;,   covariates = &quot;cad.prs+f.31.0.0+smoke+antihtn_now+statin_now&quot;)   print(attributes(modelfit))</code></p>
+<p><code>{r} modelfit = fitfunc2(   df_frame=data.table::data.table(train),   ages = ages,   nstates = nstates,   mode = &quot;binomial&quot;,   covariates = &quot;cad.prs+f.31.0.0+smoke+antihtn_now+statin_now&quot;)</code></p>
+<p>Here you can see all the we produce:</p>
+<p><code>{r} print(attributes(modelfit))</code></p>
 <p>This produces the model fit. For more details, including state to
 state coefficient extraction, lifetime probabilities of disease under
 treated and untreated strategy, please see our test vignette at <a href="https://surbut.github.io/MSGene/vignette.html" class="uri">https://surbut.github.io/MSGene/vignette.html</a></p>

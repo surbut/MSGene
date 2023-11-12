@@ -30,7 +30,8 @@ First, we load our sample data frame. You will need to request a data frame with
 
 
 ```{r eval=T,echo=FALSE}
-df2=readRDS("~/Library/CloudStorage/Dropbox-Personal/dfmsgene.rds")
+df2 <- readRDS(system.file("data", "msgene_sampledf.rds", package = "MSGene"))
+head(df2)
 head(df2)
 ```
 
@@ -93,22 +94,6 @@ healthy_coefs = a$custom_smooth
 ## create sample matrix to test
 
 intercept=1
-cad.prs=c(-2,-1,0,1,2)
-sex=c(0,1)
-smoke=c(0,1)
-antihtn_now=c(0,1)
-statin_now=c(0,1)
-atrisk=expand.grid(intercept,cad.prs,sex,smoke,antihtn_now,statin_now)
-
-
-mso = compute_prediction_product_matrix(
-coefmat = healthy_coefs,
-atrisk = atrisk,
-agepredinterval = c(40:80)
-)
-
-
-intercept=1
 sex=c(0,1)
 cad.prs=c(1)
 atrisk=expand.grid(intercept,cad.prs,sex) 
@@ -120,27 +105,6 @@ atrisk = atrisk,
 agepredinterval = c(40:80)
 )
 mso$PredictedIntervalrisk[2]
-
-
-
-## check with other
-coeff_array=coef_array_func(ages = ages,transit_mat = transitions,modelfit = mfit)
-
-cmat=coeff_array[,"Health","Cad",]
-
-intercept=1
-sex=c(0,1)
-cad.prs=c(-2,-1,0,1,2)
-atrisk=expand.grid(intercept,cad.prs,sex) 
-
-mso = compute_prediction_product_matrix(
-coefmat = cmat,
-atrisk = atrisk,
-agepredinterval = c(40:80)
-)
-
-mso$PredictedIntervalrisk[9]
-
 
 
 
@@ -165,7 +129,6 @@ mso$Hazard_treated
 
 You can also make cool plots examining the proportional occupancy of each state:
 
-```{r, echo=F,eval=T}
-readRDS("~/multistate2/output/proportionaloccupancy.rds")
-```
 
+
+![Proportional Plot](data/proportionaloccupancy.png)
