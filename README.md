@@ -1,7 +1,7 @@
 ## MSGene
 * Multistate modeling
 
-Welcome to our package for estimating lifetime probabilities iterated over a multistate model!! 
+Welcome to our implementation for estimating lifetime probabilities iterated over a multistate model!! 
 
 This repository contains codes for implementing MSGene, a framework for dynamic risk modelling of coronary artery disease using genetic risk and the electronic health record with multistate modelling. Detailed description of MSGene development can be found in the manuscript [MSGene: Derivation and validation of a multistate model for lifetime risk of coronary artery disease using genetic risk and the electronic health record](https://www.medrxiv.org/content/10.1101/2023.11.08.23298229v1)
 
