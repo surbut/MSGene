@@ -48,10 +48,10 @@ modelfitfun=function(ages,transit_mat,covariates,df,statusarray,mode="binomial")
         ar=which(s[agename,,start_state]==1)
         at_risk = s[agename,ar,]
         if(transit_mat[start_state,end_state] == 1){
-          print(age)
-          print(agename)
-          print(start_state)
-          print(end_state)
+          # print(age)
+          # print(agename)
+          # print(start_state)
+          # print(end_state)
           censored=which(s[nxname,ar,end_state]==1)
 
           ## now for model fit
