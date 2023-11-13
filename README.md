@@ -1,5 +1,5 @@
 ## MSGene
-* R package for multistate modeling
+* Multistate modeling
 
 Welcome to our package for estimating lifetime probabilities iterated over a multistate model!! 
 
