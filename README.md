@@ -18,7 +18,17 @@ Please see [ukbpheno](https://github.com/niekverw/ukbpheno/tree/master) for dire
 
 We include a simulated data set with the appropriate column names. Here, field f.31.0.0 represents the sex indicator from the UKB. UK Biobank is open to all researchers with appropriate credentials and IRB approval, [UK Biobank](https://www.ukbiobank.ac.uk).
 
-## ADD DESCRIPTIONS TO VARIABLE NAMES SMURBUT
+#### Column names
+
+The column names are described in [ukbpheno](https://github.com/niekverw/ukbpheno/tree/master) and below the as follows:
+
+* **cad.prs** : scaled N(0,1) coronary artery disease PRS, as available in ukbshowcase field XXX
+* **f.31.0.0**: sex (male/female, 1/0)
+* **Trait_0_Any**: binary indicator for case (2) or control status (0)
+* **Trait_0_censor_age**: minimum age of first diagnosis, last censored, or death (whichever comes first)
+* **statin/antihtn**: binary indicator of medication use
+* **statin_age/htn_age**: NA (age) if never using/age of first prescription
+* **smoke**: smoking status at baseline
 
 # Load the sample data
 

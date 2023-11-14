@@ -1,5 +1,5 @@
 ---
-title: "Vignette Title"
+title: "Generalized with Marginal"
 author: "Vignette Author"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -17,7 +17,9 @@ knitr::opts_chunk$set(
 ```
 
 # Model fitting
-
+ 
+ Here we allow for the user to input an array of people x ages x states with the exact position of an individual in every age, and a matrix of potential transitions, to train the model. The marginal computation over all states is then entry in the matrix product of the j,k position at age N, but you can also use the conditional computations.
+ 
 * load data
 
 ```{r}
