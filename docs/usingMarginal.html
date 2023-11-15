@@ -12,9 +12,9 @@
 
 <meta name="author" content="Vignette Author" />
 
-<meta name="date" content="2023-11-13" />
+<meta name="date" content="2023-11-14" />
 
-<title>Vignette Title</title>
+<title>Generalized with Marginal</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -338,14 +338,20 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Vignette Title</h1>
+<h1 class="title toc-ignore">Generalized with Marginal</h1>
 <h4 class="author">Vignette Author</h4>
-<h4 class="date">2023-11-13</h4>
+<h4 class="date">2023-11-14</h4>
 
 
 
 <div id="model-fitting" class="section level1">
 <h1>Model fitting</h1>
+<p>Here we allow for the user to input an array of people x ages x
+states with the exact position of an individual in every age, and a
+matrix of potential transitions, to train the model. The marginal
+computation over all states is then entry in the matrix product of the
+j,k position at age N, but you can also use the conditional
+computations.</p>
 <ul>
 <li>load data</li>
 </ul>

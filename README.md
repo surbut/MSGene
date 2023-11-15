@@ -28,7 +28,7 @@ The column names are described in [ukbpheno](https://github.com/niekverw/ukbphen
 * **Trait_0_censor_age**: minimum age of first diagnosis, last censored, or death (whichever comes first)
 * **statin/antihtn**: binary indicator of medication use
 * **statin_age/htn_age**: NA (age) if never using/age of first prescription
-* **smoke**: smoking status at baseline
+* **smoke**git : smoking status at baseline
 
 # Load the sample data
 

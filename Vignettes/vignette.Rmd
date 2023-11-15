@@ -22,6 +22,8 @@ devtools::install_github("surbut/MSGene")
 
 ```{r}
 require(MSGene)
+require(data.table)
+require(tidyverse)
 ```
 
 ## Vignette Info
