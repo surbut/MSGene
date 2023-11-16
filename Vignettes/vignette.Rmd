@@ -92,6 +92,10 @@ a = coefplotsmooth2(
 healthy_coefs = a$custom_smooth
 ```
 
+
+# Check dimensions
+
+
 ```{r}
 ## create sample matrix to test
 intercept=1
@@ -99,15 +103,21 @@ sex=c(0,1)
 cad.prs=c(1)
 atrisk=expand.grid(intercept,cad.prs,sex) 
 
+
+dim(atrisk)
+dim(healthy_coefs)
+
+```
+
+Compute matrix interval risk for covariate profile two:
+
+```{r}
 mso = compute_prediction_product_matrix(
 coefmat = healthy_coefs,
 atrisk = atrisk,
 agepredinterval = c(40:80)
 )
 mso$PredictedIntervalrisk[2]
-
-
-
 ```
 
 * remaining lifetime risk matrix starting from each 40 for all 80 individuals in the profile
