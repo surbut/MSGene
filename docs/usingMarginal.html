@@ -12,7 +12,7 @@
 
 <meta name="author" content="Vignette Author" />
 
-<meta name="date" content="2023-11-14" />
+<meta name="date" content="2024-02-21" />
 
 <title>Generalized with Marginal</title>
 
@@ -340,7 +340,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Generalized with Marginal</h1>
 <h4 class="author">Vignette Author</h4>
-<h4 class="date">2023-11-14</h4>
+<h4 class="date">2024-02-21</h4>
 
 
 
@@ -633,8 +633,8 @@ match!</p>
 <span id="cb13-18"><a href="#cb13-18" tabindex="-1"></a>)</span>
 <span id="cb13-19"><a href="#cb13-19" tabindex="-1"></a></span>
 <span id="cb13-20"><a href="#cb13-20" tabindex="-1"></a>result2<span class="ot">=</span>mso<span class="sc">$</span>PredictedIntervalrisk[<span class="dv">2</span>]</span>
-<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a><span class="fu">all.equal</span>(result1,result2)</span>
-<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Mean relative difference: 3.29765e-06&quot;</span></span></code></pre></div>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1"></a><span class="fu">all.equal</span>(result1,result2,<span class="at">tolerance =</span> <span class="fl">1e-5</span>)</span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 </div>
 </div>
 <div id="result_matrix-now-contains-the-product-of-transition-matrices-over-the-specified-age-interval." class="section level2">

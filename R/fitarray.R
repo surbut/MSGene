@@ -117,6 +117,8 @@ fitfunc = function(df_frame, ages, nstates, mode,covariates) {
       rm(censored)
 
       ## from Health (1) to CAD (or CAD death) directly alone
+      ## but isn't this an issue bc if you die with CAD diagnosis in same year from health, you will be counted in both death bucket and CAD bucket?
+      ## for other risk factors single step to CAD excludes death in that year
 
       censored = dim(atrisk[which(Cad_0_censor_age <= nx &
                                     Cad_0_Any == 2 #&
